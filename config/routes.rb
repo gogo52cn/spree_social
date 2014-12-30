@@ -5,6 +5,20 @@ Spree::Core::Engine.add_routes do
              controllers: { omniauth_callbacks: 'spree/omniauth_callbacks' },
              path: Spree::SocialConfig[:path_prefix]
   resources :user_authentications
+  
+    devise_scope :user do
+    match "/users/auth/:provider",
+      constraints: { provider: /google|facebook/ },
+      to: "users/omniauth_callbacks#passthru",
+      as: :user_omniauth_authorize,
+      via: [:get, :post]
+    match "/users/auth/:action/callback",
+      constraints: { action: /google|facebook/ },
+      to: "users/omniauth_callbacks",
+      as: :user_omniauth_callback,
+      via: [:get, :post]
+  end
+  
 
   get 'account' => 'users#show', as: 'user_root'
 
