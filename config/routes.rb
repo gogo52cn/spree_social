@@ -23,18 +23,18 @@ Spree::Core::Engine.add_routes do
   match "/users/auth/:provider",
       constraints: { provider: /google|facebook/ },
      to: "omniauth_callbacks#passthru",
-     as: :user_omniauth_authorize,
+     as: :spree_user_omniauth_authorize,
       via: [:get, :post]
 
   match "/users/auth/:action/callback",
       constraints: { action: /google|facebook/ },
       to: "omniauth_callbacks",
-      as: :user_omniauth_callback,
+      as: :spree_user_omniauth_callback,
       via: [:get, :post]
   end
   
   resources :user_authentications
-  
+
   get 'account' => 'users#show', as: 'user_root'
 
   namespace :admin do
