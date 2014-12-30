@@ -6,7 +6,7 @@ Spree::Core::Engine.add_routes do
              path: Spree::SocialConfig[:path_prefix]
   resources :user_authentications
   
-    devise_scope :user do
+    devise_scope :spree_user do
     match "/users/auth/:provider",
       constraints: { provider: /google|facebook/ },
       to: "users/omniauth_callbacks#passthru",
