@@ -1,28 +1,45 @@
 Spree::Core::Engine.add_routes do
+
+ #     devise_scope :user do
+  #  match "/users/auth/:provider",
+   #   constraints: { provider: /google|facebook/ },
+   #   to: "spree/omniauth_callbacks#passthru",
+   #   as: :user_omniauth_authorize,
+   #   via: [:get, :post]
+
+ # end
+  
+  #devise_for :spree_user,
+  #           class_name: Spree::User,
+  
+  #           skip: [:unlocks, :sessions, :registrations, :passwords],
+  #           controllers: { omniauth_callbacks: 'spree/omniauth_callbacks' },
+  #           path: Spree::SocialConfig[:path_prefix]
+  
+  
   
   devise_scope :spree_user do
-    match "/users/auth/:provider",
+
+  match "/users/auth/:provider",
       constraints: { provider: /google|facebook/ },
-      to: "spree/omniauth_callbacks#passthru",
-      as: :user_omniauth_authorize,
+     to: "omniauth_callbacks#passthru",
+     as: :user_omniauth_authorize,
       via: [:get, :post]
-    match "/users/auth/:action/callback",
+
+  match "/users/auth/:action/callback",
       constraints: { action: /google|facebook/ },
-      to: "spree/omniauth_callbacks",
+      to: "omniauth_callbacks",
       as: :user_omniauth_callback,
       via: [:get, :post]
   end
   
-  #devise_for :spree_user,
-  #           class_name: Spree::User,
-  #           skip: [:unlocks, :sessions, :registrations, :passwords],
-  #           controllers: { omniauth_callbacks: 'spree/omniauth_callbacks' },
-  #           path: Spree::SocialConfig[:path_prefix]
-  # resources :user_authentications
+  resources :user_authentications
+  
+  get 'account' => 'users#show', as: 'user_root'
 
-  #get 'account' => 'users#show', as: 'user_root'
+  namespace :admin do
+    resources :authentication_methods
+  end
 
-#  namespace :admin do
- #   resources :authentication_methods
-#  end
+
 end
