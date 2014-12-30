@@ -9,12 +9,12 @@ Spree::Core::Engine.add_routes do
     devise_scope :spree_user do
     match "/users/auth/:provider",
       constraints: { provider: /google|facebook/ },
-      to: "users/omniauth_callbacks#passthru",
+      to: "spree/omniauth_callbacks#passthru",
       as: :user_omniauth_authorize,
       via: [:get, :post]
     match "/users/auth/:action/callback",
       constraints: { action: /google|facebook/ },
-      to: "users/omniauth_callbacks",
+      to: "spree/omniauth_callbacks",
       as: :user_omniauth_callback,
       via: [:get, :post]
   end
