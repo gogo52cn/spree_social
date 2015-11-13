@@ -1,10 +1,10 @@
 module SpreeSocial
   OAUTH_PROVIDERS = [
-    %w(Facebook facebook),
-    %w(Twitter twitter),
-    %w(Github github),
-    %w(Google google_oauth2),
-    %w(Amazon amazon)
+    %w(Facebook facebook true),
+    %w(Twitter twitter false),
+    %w(Github github false),
+    %w(Google google_oauth2 true),
+    %w(Amazon amazon false)
   ]
 
   class Engine < Rails::Engine
@@ -40,7 +40,7 @@ module SpreeSocial
 
   def self.setup_key_for(provider, key, secret)
     Devise.setup do |config|
-      config.omniauth provider, key, secret, setup: true
+      config.omniauth provider, key, secret, setup: true, scope: 'email', info_fields: 'email, name'
     end
   end
 end
